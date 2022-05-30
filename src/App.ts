@@ -3,7 +3,10 @@ import { assets } from "./components/assets";
 import { Ground } from "./components/Ground";
 import { Clouds } from "./components/Clouds";
 import { Player } from "./components/Player";
+import { Score } from "./components/Score";
+
 export class App extends Application {
+  private score!: Score;
   private ground!: Ground;
   private clouds!: Clouds;
   private player!: Player;
@@ -31,8 +34,8 @@ export class App extends Application {
     this.ground = new Ground();
     this.clouds = new Clouds();
     this.player = new Player();
-
-    this.stage.addChild(this.ground, this.clouds, this.player);
+    this.score = new Score("Score:");  
+    this.stage.addChild( this.ground, this.clouds, this.player, this.score);
     this.onResize()
     this.ticker.add(this.onUpdate.bind(this))
   }
