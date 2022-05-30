@@ -1,20 +1,15 @@
-import { Sprite } from "pixi.js";
+import { Texture, TilingSprite } from "pixi.js";
 
-export class Ground extends Sprite {
-  private ground: Sprite;
-  private readonly screenWidth: number;
-  private readonly screenHeight: number;
-  constructor(screenWidth: number, screenHeight:number) {
-    super()
-    this.screenWidth = screenWidth
-    this.screenHeight = screenHeight
-
-    this.ground = Sprite.from('./assets/sprites/env/ground.png');
-    this.ground.anchor.set(0.5);
-    
-    this.ground.x = this.screenWidth / 2;
-    this.ground.y = this.screenHeight / 2;
-    
-    this.addChild(this.ground);
+export class Ground extends TilingSprite {
+  constructor() {
+    const ground =  Texture.from('ground');
+    super(ground,1, ground.height)
+  }
+  onResize(width:number, height: number) {
+    this.width = width
+    this.y = height - this.height
+  }
+  onUpdate(delta: number) {
+    this.tilePosition.x -=delta * 2;
   }
 }
