@@ -1,8 +1,11 @@
 import { Application } from "pixi.js";
-import { Ground } from "./components/Ground";
 import { assets } from "./components/assets";
+import { Ground } from "./components/Ground";
+import { Clouds } from "./components/Clouds";
 export class App extends Application {
-  private ground: any;
+  private ground!: Ground;
+  private clouds!: Clouds;
+  
   constructor() {
     super({
       width: window.innerWidth,
@@ -13,33 +16,33 @@ export class App extends Application {
       backgroundColor: 0x6495ed,
     })
 
-    this.init();
-
+    this.init();  
     window.addEventListener('resize', this.onResize.bind(this))
-
   }
-  
+
   init() {
     this.loader.add(assets);
     this.loader.load(this.draw.bind(this));
   }
-  
-  draw() {
-    this.ground = new Ground()
 
-    this.stage.addChild(this.ground);
+  draw() {
+    this.ground = new Ground();
+    this.clouds = new Clouds();
+    this.stage.addChild(this.ground, this.clouds);
     this.onResize()
     this.ticker.add(this.onUpdate.bind(this))
   }
 
   onUpdate(delta: number) {
     this.ground.onUpdate(delta)
+    this.clouds.onUpdate(delta)
     console.log(this.ground.x)
   }
 
   onResize() {
     this.renderer.resize(window.innerWidth, window.innerHeight)
     const width = this.renderer.width, height = this.renderer.height
+    this.clouds.onResize(width)
     this.ground.onResize(width, height)
   }
 }
