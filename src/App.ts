@@ -2,10 +2,12 @@ import { Application } from "pixi.js";
 import { assets } from "./components/assets";
 import { Ground } from "./components/Ground";
 import { Clouds } from "./components/Clouds";
+import { Player } from "./components/Player";
 export class App extends Application {
   private ground!: Ground;
   private clouds!: Clouds;
-  
+  private player!: Player;
+
   constructor() {
     super({
       width: window.innerWidth,
@@ -28,7 +30,9 @@ export class App extends Application {
   draw() {
     this.ground = new Ground();
     this.clouds = new Clouds();
-    this.stage.addChild(this.ground, this.clouds);
+    this.player = new Player();
+
+    this.stage.addChild(this.ground, this.clouds, this.player);
     this.onResize()
     this.ticker.add(this.onUpdate.bind(this))
   }
@@ -44,5 +48,6 @@ export class App extends Application {
     const width = this.renderer.width, height = this.renderer.height
     this.clouds.onResize(width)
     this.ground.onResize(width, height)
+    this.player.onResize(width, height)
   }
 }
