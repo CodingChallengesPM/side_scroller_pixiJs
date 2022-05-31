@@ -13,5 +13,10 @@ export class Enemy extends Sprite {
     this.x = width * 0.63
     this.y = height * 0.5
   }
+
+  onUpdate(delta:number) {
+    this.x -= delta * 1;
+  }
+  
 }
 

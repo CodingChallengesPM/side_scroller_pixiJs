@@ -22,7 +22,7 @@ export class App extends Application {
       backgroundColor: 0x6495ed,
     })
 
-    this.init();  
+    this.init();
     window.addEventListener('resize', this.onResize.bind(this))
   }
 
@@ -35,19 +35,20 @@ export class App extends Application {
     this.ground = new Ground();
     this.clouds = new Clouds();
     this.player = new Player();
-    this.enemy = new Enemy();  
-    this.score = new Score();  
+    this.enemy = new Enemy();
+    this.score = new Score();
 
-    this.stage.addChild( this.ground, this.clouds, this.player, this.score, this.enemy);
+    this.stage.addChild(this.ground, this.clouds, this.player, this.score, this.enemy);
     this.onResize()
     this.ticker.add(this.onUpdate.bind(this))
+    this.ticker.add(this.onCollision.bind(this))
   }
 
   onUpdate(delta: number) {
     this.ground.onUpdate(delta)
     this.clouds.onUpdate(delta)
+    this.enemy.onUpdate(delta)
     this.score.onUpdate(this.ground.distance)
-    console.log(this.ground.x)
   }
 
   onResize() {
@@ -57,5 +58,9 @@ export class App extends Application {
     this.ground.onResize(width, height)
     this.player.onResize(width, height)
     this.enemy.onResize(width, height)
+  }
+
+  onCollision() {
+    this.player.onCollision(this.enemy)
   }
 }
