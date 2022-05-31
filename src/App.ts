@@ -10,7 +10,7 @@ export class App extends Application {
   private ground!: Ground;
   private clouds!: Clouds;
   private player!: Player;
-  private enemy!: Enemy;
+  private enemies!: Enemy[]
 
   constructor() {
     super({
@@ -35,10 +35,21 @@ export class App extends Application {
     this.ground = new Ground();
     this.clouds = new Clouds();
     this.player = new Player();
-    this.enemy = new Enemy();
-    this.score = new Score();
 
-    this.stage.addChild(this.ground, this.clouds, this.player, this.score, this.enemy);
+    this.score = new Score();
+    this.enemies = [
+      new Enemy(), 
+      new Enemy(), 
+      new Enemy(),
+      new Enemy(),
+      new Enemy(),
+      new Enemy(),
+    ];
+
+    this.stage.addChild(this.ground, this.clouds, this.player, this.score);
+
+    this.enemies.forEach(element =>  this.stage.addChild(element))
+
     this.onResize()
     this.ticker.add(this.onUpdate.bind(this))
     this.ticker.add(this.onCollision.bind(this))
@@ -47,8 +58,8 @@ export class App extends Application {
   onUpdate(delta: number) {
     this.ground.onUpdate(delta)
     this.clouds.onUpdate(delta)
-    this.enemy.onUpdate(delta)
     this.score.onUpdate(this.ground.distance)
+    this.enemies.forEach(element =>  element.onUpdate(delta))
   }
 
   onResize() {
@@ -57,10 +68,10 @@ export class App extends Application {
     this.clouds.onResize(width)
     this.ground.onResize(width, height)
     this.player.onResize(width, height)
-    this.enemy.onResize(width, height)
+    this.enemies.forEach(element =>  element.onResize(width,height));
   }
 
   onCollision() {
-    this.player.onCollision(this.enemy)
+    this.enemies.forEach(enemy => this.player.onCollision(enemy));    
   }
 }
