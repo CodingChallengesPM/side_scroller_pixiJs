@@ -5,12 +5,14 @@ import { Clouds } from "./components/Clouds";
 import { Player } from "./components/Player";
 import { Score } from "./components/Score";
 import { Enemy } from "./components/Enemy";
+import { GroundEnemy } from "./components/GroundEnemy";
 export class App extends Application {
   private score!: Score;
   private ground!: Ground;
   private clouds!: Clouds;
   private player!: Player;
   private enemies!: Enemy[]
+  private groundEnemy!: GroundEnemy
 
   constructor() {
     super({
@@ -37,6 +39,7 @@ export class App extends Application {
     this.player = new Player();
 
     this.score = new Score();
+    this.groundEnemy = new GroundEnemy();
     this.enemies = [
       new Enemy(), 
       new Enemy(), 
@@ -46,7 +49,7 @@ export class App extends Application {
       new Enemy(),
     ];
 
-    this.stage.addChild(this.ground, this.clouds, this.player, this.score);
+    this.stage.addChild(this.ground, this.clouds, this.player, this.score, this.groundEnemy);
 
     this.enemies.forEach(enemy =>  this.stage.addChild(enemy))
 
@@ -59,6 +62,7 @@ export class App extends Application {
   onUpdate(delta: number) {
     this.ground.onUpdate(delta)
     this.clouds.onUpdate(delta)
+    this.groundEnemy.onUpdate(delta)
     this.score.onUpdate(this.ground.distance)
     this.enemies.forEach(element =>  element.onUpdate(delta))
   }
@@ -69,6 +73,7 @@ export class App extends Application {
     this.clouds.onResize(width)
     this.ground.onResize(width, height)
     this.player.onResize(width, height)
+    this.groundEnemy.onResize(width, height)
     this.enemies.forEach(element =>  element.onResize(width,height));
   }
 
@@ -82,5 +87,8 @@ export class App extends Application {
        enemy.x = screen.width;
       }
     })
+    if(this.groundEnemy.x < 0) {
+     this.groundEnemy.x = screen.width
+    }
   }
 }
