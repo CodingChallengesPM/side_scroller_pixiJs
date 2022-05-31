@@ -48,11 +48,12 @@ export class App extends Application {
 
     this.stage.addChild(this.ground, this.clouds, this.player, this.score);
 
-    this.enemies.forEach(element =>  this.stage.addChild(element))
+    this.enemies.forEach(enemy =>  this.stage.addChild(enemy))
 
     this.onResize()
     this.ticker.add(this.onUpdate.bind(this))
     this.ticker.add(this.onCollision.bind(this))
+    this.ticker.add(this.resetEnemies.bind(this))
   }
 
   onUpdate(delta: number) {
@@ -73,5 +74,13 @@ export class App extends Application {
 
   onCollision() {
     this.enemies.forEach(enemy => this.player.onCollision(enemy));    
+  }
+
+  resetEnemies() {
+    this.enemies.forEach(enemy => {
+      if(enemy.x < 0) {
+       enemy.x = screen.width;
+      }
+    })
   }
 }
