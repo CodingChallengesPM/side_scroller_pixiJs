@@ -34,7 +34,7 @@ export class App extends Application {
     this.ground = new Ground();
     this.clouds = new Clouds();
     this.player = new Player();
-    this.score = new Score("Score:");  
+    this.score = new Score();  
     this.stage.addChild( this.ground, this.clouds, this.player, this.score);
     this.onResize()
     this.ticker.add(this.onUpdate.bind(this))
@@ -43,6 +43,7 @@ export class App extends Application {
   onUpdate(delta: number) {
     this.ground.onUpdate(delta)
     this.clouds.onUpdate(delta)
+    this.score.onUpdate(this.ground.distance)
     console.log(this.ground.x)
   }
 
