@@ -4,12 +4,13 @@ import { Ground } from "./components/Ground";
 import { Clouds } from "./components/Clouds";
 import { Player } from "./components/Player";
 import { Score } from "./components/Score";
-
+import { Enemy } from "./components/Enemy";
 export class App extends Application {
   private score!: Score;
   private ground!: Ground;
   private clouds!: Clouds;
   private player!: Player;
+  private enemy!: Enemy;
 
   constructor() {
     super({
@@ -34,8 +35,10 @@ export class App extends Application {
     this.ground = new Ground();
     this.clouds = new Clouds();
     this.player = new Player();
+    this.enemy = new Enemy();  
     this.score = new Score();  
-    this.stage.addChild( this.ground, this.clouds, this.player, this.score);
+
+    this.stage.addChild( this.ground, this.clouds, this.player, this.score, this.enemy);
     this.onResize()
     this.ticker.add(this.onUpdate.bind(this))
   }
@@ -53,5 +56,6 @@ export class App extends Application {
     this.clouds.onResize(width)
     this.ground.onResize(width, height)
     this.player.onResize(width, height)
+    this.enemy.onResize(width, height)
   }
 }
