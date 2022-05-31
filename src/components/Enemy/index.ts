@@ -2,7 +2,7 @@ import { Sprite } from 'pixi.js'
 
 export class Enemy extends Sprite {
   private enemy: Sprite;
-  private enemyStartPositionY: number = +(Math.random() * 0.4).toFixed(1);
+  private enemyStartPositionY: number = +(Math.random() * 0.6).toFixed(1);
   private enemyStartPositionX: number = 1.2;
   private pixelsPerFrame: number = +(Math.random() * 4).toFixed(1)
   constructor() {

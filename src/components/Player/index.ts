@@ -11,10 +11,10 @@ export class Player extends Sprite {
     // basic controls 
     document.addEventListener('keydown', (e) => {
       if (e.key === "ArrowUp") {
-        this.player.y -= 5;
+        this.player.y -= 6;
       }
       if (e.key === "ArrowDown") {
-        this.player.y += 5;
+        this.player.y += 6;
       }
     })
   }
