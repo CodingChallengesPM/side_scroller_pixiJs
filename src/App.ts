@@ -62,6 +62,7 @@ export class App extends Application {
     this.ticker.add(this.onCollision);
     this.ticker.add(this.enemyFactory);
     this.ticker.add(this.drawEnemies);
+    this.ticker.add(this.fireBullet);
   }
 
   onUpdate = (delta: number) => {
@@ -84,10 +85,12 @@ export class App extends Application {
 
   onCollision = () =>{
     this.enemies.forEach(enemy => this.player.onCollision(enemy));    
-    this.shootingEnemies.forEach(enemy => this.player.onCollision(enemy));    
+    this.shootingEnemies.forEach(enemy => this.player.onCollision(enemy.bullet));    
+    this.shootingEnemies.forEach(enemy => this.player.onCollision(enemy.enemy));    
   }
 
   enemyFactory = () => {
+
     for(let i = 0; i < this.enemies.length; i ++) {
       if(this.enemies[i].x < 0) {
         this.enemies[i].destroy();
@@ -95,6 +98,7 @@ export class App extends Application {
         this.enemies.push(new Enemy(window.innerWidth,window.innerHeight));
       }
     }
+
     for(let i = 0; i < this.shootingEnemies.length; i ++) {
       if(this.shootingEnemies[i].x < 0) {
         this.shootingEnemies[i].destroy();
@@ -107,6 +111,14 @@ export class App extends Application {
   drawEnemies = ()=> {
     this.enemies.forEach(enemy => this.stage.addChild(enemy));
     this.shootingEnemies.forEach(enemy => this.stage.addChild(enemy));
+  }
+
+  fireBullet = (delta:number) => {
+   this.shootingEnemies.forEach(enemy => {
+    setTimeout(()=>{
+      enemy.fireBullet(delta)
+    }, enemy.bulletWaitTime)
+    });    
   }
 
 }
