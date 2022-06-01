@@ -1,13 +1,13 @@
 import { Sprite } from 'pixi.js'
 
 export class Enemy extends Sprite {
-  private enemy: Sprite;
+  public enemy: Sprite;
   private screenWidth: number
   private screenHeight: number
-  private enemyStartPositionY: number = +(Math.random() * 0.6).toFixed(1);
+  public enemyStartPositionY: number = +(Math.random() * 0.6).toFixed(1);
   
-  private enemyStartPositionX: number = 1.2;
-  private pixelsPerFrame: number = +(Math.random() * 4).toFixed(1)
+  public enemyStartPositionX: number = 1.2;
+  public pixelsPerFrame: number = +(Math.random() * 4).toFixed(1)
   constructor(screenWidth: number, screenHeight: number) {
     super();
     this.screenWidth = screenWidth

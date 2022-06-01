@@ -1,29 +1,28 @@
-import { Sprite } from 'pixi.js'
+import { Sprite } from 'pixi.js';
+import {Enemy} from '../Enemy'
 
-export class GroundEnemy extends Sprite {
-  private enemy: Sprite;
+export class ShootingEnemy extends Enemy {
   public bullet: Sprite;
-  private enemyStartPositionY:number =  140;
-  private enemyStartPositionX: number = 1.2;
-  // private randomNumber: number = +(Math.random() * 4).toFixed(1)
-  private pixelsPerFrame: number = 8;
-  // private pixelsPerFrame: number = +(Math.random() * 4).toFixed(1)
-  constructor() {
-    super();
+
+  constructor(screenWidth: number, screenHeight: number) {
+    super(screenWidth, screenHeight);
     this.enemy = Sprite.from('ground-enemy');
     this.bullet = Sprite.from('bullet');
     this.enemy.anchor.set(0.5);
     this.bullet.anchor.set(0.5);
+    this.enemyStartPositionY = 140;
+    this.enemyStartPositionX = 1.2;
+    this.pixelsPerFrame = 8;
     this.addChild(this.enemy);
     this.enemy.addChild(this.bullet);
   }
 
-  onResize(width: number, height: number) {
+  override onResize(width: number, height: number) {
     this.x = width * this.enemyStartPositionX
     this.y = height - this.height - this.enemyStartPositionY;
   }
 
-  onUpdate(delta: number) {
+  override onUpdate(delta: number) {
     this.x -= delta * this.pixelsPerFrame;
   }
 
