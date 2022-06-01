@@ -11,8 +11,8 @@ export class App extends Application {
   private ground!: Ground;
   private clouds!: Clouds;
   private player!: Player;
-  private enemies!: Enemy[]
-  private groundEnemy!: GroundEnemy
+  private enemies!: Enemy[];
+  private groundEnemy!: GroundEnemy;
 
   constructor() {
     super({
@@ -22,10 +22,10 @@ export class App extends Application {
       resolution: window.devicePixelRatio || 1,
       autoDensity: true,
       backgroundColor: 0x6495ed,
-    })
+    });
 
     this.init();
-    window.addEventListener('resize', this.onResize.bind(this))
+    window.addEventListener('resize', this.onResize.bind(this));
   }
 
   init() {
@@ -41,22 +41,28 @@ export class App extends Application {
     this.score = new Score();
     this.groundEnemy = new GroundEnemy();
     this.enemies = [
-      new Enemy(), 
-      new Enemy(), 
-      new Enemy(),
-      new Enemy(),
-      new Enemy(),
-      new Enemy(),
+      new Enemy(window.innerWidth,window.innerHeight), 
+      new Enemy(window.innerWidth,window.innerHeight), 
+      new Enemy(window.innerWidth,window.innerHeight),
+      new Enemy(window.innerWidth,window.innerHeight),
+      new Enemy(window.innerWidth,window.innerHeight),
+      new Enemy(window.innerWidth,window.innerHeight),
     ];
 
-    this.stage.addChild(this.ground, this.clouds, this.player, this.score, this.groundEnemy);
+    this.stage.addChild(
+      this.ground, 
+      this.clouds, 
+      this.player, 
+      this.score, 
+      this.groundEnemy
+    );
 
-    this.enemies.forEach(enemy =>  this.stage.addChild(enemy))
+    this.onResize();
 
-    this.onResize()
-    this.ticker.add(this.onUpdate.bind(this))
-    this.ticker.add(this.onCollision.bind(this))
-    this.ticker.add(this.resetEnemies.bind(this))
+    this.ticker.add(this.onUpdate.bind(this));
+    this.ticker.add(this.onCollision.bind(this));
+    this.ticker.add(this.enemyFactory.bind(this));
+    this.ticker.add(this.drawEnemies.bind(this));
   }
 
   onUpdate(delta: number) {
@@ -81,15 +87,18 @@ export class App extends Application {
     this.enemies.forEach(enemy => this.player.onCollision(enemy));    
   }
 
-  resetEnemies() {
-    this.enemies.forEach(enemy => {
-      if(enemy.x < 0) {
-       enemy.x = screen.width;
+  enemyFactory () {
+    for(let i = 0; i < this.enemies.length; i ++) {
+      if(this.enemies[i].x < 0) {
+        this.enemies[i].destroy();
+        this.enemies.splice(i,1);
+        this.enemies.push(new Enemy(window.innerWidth,window.innerHeight));
       }
-    })
-    if(this.groundEnemy.x < 0) {
-     this.groundEnemy.x = screen.width
     }
+  }
+
+  drawEnemies() {
+    this.enemies.forEach(enemy => this.stage.addChild(enemy));
   }
 
 }
