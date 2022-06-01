@@ -90,7 +90,7 @@ export class App extends Application {
   }
 
   enemyFactory = () => {
-
+    //TODO: Refactor to helper function or method to remove dublication
     for(let i = 0; i < this.enemies.length; i ++) {
       if(this.enemies[i].x < 0) {
         this.enemies[i].destroy();

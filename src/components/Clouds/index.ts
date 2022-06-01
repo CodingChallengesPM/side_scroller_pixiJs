@@ -1,6 +1,7 @@
 import {TilingSprite, Texture} from 'pixi.js'
 
 export class Clouds extends TilingSprite {
+  private velocity: number = 4;
   constructor() {
     const clouds = Texture.from('clouds')
     super(clouds, 1, clouds.height)
@@ -11,6 +12,6 @@ export class Clouds extends TilingSprite {
   }
 
   onUpdate(delta:number) {
-    this.tilePosition.x -= delta * 4;
+    this.tilePosition.x -= delta * this.velocity;
   }
 }
