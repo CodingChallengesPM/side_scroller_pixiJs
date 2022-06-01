@@ -2,8 +2,8 @@ import { Sprite } from 'pixi.js'
 
 export class Enemy extends Sprite {
   public enemy: Sprite;
-  private screenWidth: number
-  private screenHeight: number
+  public  screenWidth: number
+  public  screenHeight: number
   public enemyStartPositionY: number = +(Math.random() * 0.6).toFixed(1);
   
   public enemyStartPositionX: number = 1.2;
@@ -19,12 +19,12 @@ export class Enemy extends Sprite {
     this.y = this.screenHeight * this.enemyStartPositionY
   }
 
-  onResize(width: number, height: number) {
+  onResize = (width: number, height: number)=> {
     this.x = width * this.enemyStartPositionX
     this.y = height * this.enemyStartPositionY
   }
 
-  onUpdate(delta: number) {
+  onUpdate = (delta: number) => {
     this.x -= delta * this.pixelsPerFrame;
   }
 
