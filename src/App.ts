@@ -91,4 +91,5 @@ export class App extends Application {
      this.groundEnemy.x = screen.width
     }
   }
+
 }

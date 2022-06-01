@@ -15,5 +15,6 @@ export class Ground extends TilingSprite {
   onUpdate(delta: number) {
     this.tilePosition.x -= delta * 2;
     this.distance = Math.abs(Math.ceil(this.tilePosition.x * 0.1)); 
+
   }
 }
